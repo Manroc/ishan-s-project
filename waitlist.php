@@ -8,17 +8,17 @@ if(!$_SESSION["uname"] == "admin") {
 ?>
 <?php 
 include("connection.php");?>
-<a href="register.php"><button style="background-color: green; color:white;"> Add Member</button></a> <br><br>
+<a href="register.php"><button style="background-color: green; color:white"> Add Member</button></a> <br><br>
 <a href="Adash.php"><button style="background-color: green; color:white"> Back</button></a>
 <?php
-$query=  "SELECT * FROM members WHERE approve = 1;";
+$query=  "SELECT * FROM members WHERE approve = 0;";
 $data= mysqli_query($connect, $query); //execute query
 $total=mysqli_num_rows($data);
 
 if($total !=0)
 {
     ?>
-    <h2 align="center"><mark>Paid Member List</mark></h2>
+    <h2 align="center"><mark>Payment Pending List</mark></h2>
    <center><table border="1" cellpadding="10px" cellspacing="0px">
     <tr>
         <th>ID</th>
@@ -54,7 +54,7 @@ if($total !=0)
 
     echo "</td>
         <td>
-        <a href='unapprove.php?id=".$result['id']."'><input type='submit' value='UnApprove' class='unapprove'></a>
+        <a href='approve.php?id=".$result['id']."'><input type='submit' value='Approve' class='approve'></a>
         <a href='update.php?id=".$result['id']."'><input type='submit' value='Update' class='update'></a>
         <a href='delete.php?id=".$result['id']."'><input type='submit' value='Delete' class='delete' onclick='return checkedelete()'></a>
         </td>

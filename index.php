@@ -28,6 +28,8 @@
             <li><a href="#gallery">GALLERY</a></li>
             <li><a href="#about">ABOUT US</a></li>
             <li><a href="#contact">CONTACT US</a></li>
+            <li><a href="report.php">Reports</a></li>
+
             <button onclick="admin()">Admin</button>
         </ul>
         

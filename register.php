@@ -56,12 +56,6 @@
                 
             </div>
 
-            <!-- <div class="input-box">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Create password"/>
-                <span id="pass" class="error"></span>
-                
-            </div> -->
 
             <div class="input-box">
                 <label for="address">Address</label>
@@ -76,7 +70,7 @@
                 <span id="join" class="error"></span>
             </div>
             <div class="input-box">
-                <label for="price">Elite Athlete Price</label> <span class="text-danger" id="price"><b></b></span>
+                <label for="price">Pro Fitness</label> <span class="text-danger" id="price"><b></b></span>
                 <input type="text" id="date" value="Rs.5000/month" name="price" readonly />
                 <span id="join" class="error"></span>
             </div>
@@ -150,10 +144,6 @@
       return pattern.test(email);
     }
 
-    function validatePassword(password) {
-     var pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{5,}$/;
-      return pattern.test(password);
-    }
 
      function validateAddress(add){
         let pattern=/^[a-zA-Z0-9 ., \/ \-]{4,50}$/;
@@ -169,7 +159,6 @@
             var name= document.getElementById('fullname').value;
             var contact= document.getElementById('contact').value;
             var email= document.getElementById('email').value;
-            var password= document.getElementById('password').value;
             var add= document.getElementById('address').value;
             var date= document.getElementById('date').value;
             var price= document.getElementById('price').value;
@@ -230,18 +219,6 @@ else{
      
 }
 
-if(password===""){
-    document.getElementById('pass').innerHTML="Enter your password";
-    return false;
-}
-if(!validatePassword(password)){
-    document.getElementById('pass').innerHTML="Invalid Password"; 
-    return false;
-}
-else{
-    document.getElementById('pass').innerHTML=""; 
-
-}
 if(add===""){
     document.getElementById('add').innerHTML="Enter your address";
         return false;
@@ -287,12 +264,12 @@ if (!genderSelected) {
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    include("connection.php");
     
     // Get form data
     $fullname = $_POST["fullname"];
     $contact = $_POST["contact"];
     $email = $_POST["email"];
-    $password = $_POST["password"];
     $address = $_POST["address"];
     $join_date = $_POST["join_date"];
     $price = $_POST["price"];
@@ -300,7 +277,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Validate data (you may want to add more validation)
     // Here, I'm just checking if fields are not empty
-    if (empty($fullname) || empty($contact) || empty($email) || empty($password) || empty($address) || empty($join_date) || empty($price) || empty($gender)) {
+    if (empty($fullname) || empty($contact) || empty($email) || empty($address) || empty($join_date) || empty($price) || empty($gender)) {
         echo "All fields are required!";
         exit;
     }
@@ -313,20 +290,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = "";
     $database = "gym";
 
+
     $conn = new mysqli($host, $username, $password, $database);
 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-
+    $sql="SELECT * FROM members WHERE contact='$contact'";
+    $resultSet = mysqli_query($connect, $sql);
+    if( mysqli_num_rows($resultSet)){
+        echo "A user with this phone number is already registered.";
+        return;
+    }
     // SQL query to insert data into the database
-    $sql = "INSERT INTO members (fullname, contact, email, password, address, join_date, price, gender) 
-            VALUES ('$fullname', '$contact', '$email', '$password', '$address', '$join_date', '$price', '$gender')";
+    $sqll = "INSERT INTO members (fullname, contact, email, address, join_date, price, gender) 
+            VALUES ('$fullname', '$contact', '$email','$address', '$join_date', '$price', '$gender')";
 
+    $resultSett = mysqli_query($connect, $sqll);
+
+    if ($resultSett) {
+        $conn->close();
+        header("Location: index.php");
+        die();
+    } else {
+        echo "Error Occurred in form submission";
+    }
     
-
-    // Close the database connection
-    $conn->close();
+    
 }
 
 ?>

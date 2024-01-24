@@ -1,9 +1,8 @@
 <?php
 session_start();
 if(!$_SESSION["uname"] == "admin") {
-    echo '<script>alert("WE ARE INSIDE");</script>';
     header("Location: login.php");
-    exit; // It's good practice to exit after a header redirect
+    exit; 
 }
 
 ?>
@@ -138,26 +137,21 @@ if(!$_SESSION["uname"] == "admin") {
         <nav class="d-none d-md-block">
             <a href="#dashboard-container">Dashboard</a>
             <a href="membersList.php">Members</a>
-            <a href="#">Packages</a>
-            <a href="#">Payments</a>
-            <a href="dash.php" onclick="logout()">Logout</a>
+            <!-- <a href="#">Packages</a> -->
+            <a href="waitlist.php">Waitlist</a>
+            <button style="background-color:red;border:none;color:white;" onclick="logout()">Logout</button>
         </nav>
 
         <section>
             <div class="dashboard-container">
                 <div class="card">
-                    <h2>Total Members</h2>
+                    <h2>Enrolled Members</h2>
                     <!-- <p>150</p> -->
                     <a href="" class="btn btn-primary">View Details</a>
                 </div>
                 <div class="card">
-                    <h2>Packages</h2>
+                    <h2>Waitlist</h2>
                     <!-- <p>20</p> -->
-                    <a href="#" class="btn btn-primary">View Details</a>
-                </div>
-                <div class="card">
-                    <h2>Total Revenue</h2>
-                    <!-- <p>$15,000</p> -->
                     <a href="#" class="btn btn-primary">View Details</a>
                 </div>
             </div>
@@ -171,10 +165,14 @@ if(!$_SESSION["uname"] == "admin") {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        function logout() {
-            // Add your logout logic here
-            alert("Logout clicked!");
+    function logout() {
+        var confirmed = confirm("Do you want to logout");
+
+        if (confirmed) {
+            window.location.href = "logout.php";
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>
